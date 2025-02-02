@@ -12,6 +12,8 @@ class MyTextformfield extends StatelessWidget {
   final bool? expand;
   final Widget? addImageIcons;
   final File? imageFile;
+  final Widget? suffixIconButton;
+  final bool? obsecure;
   const MyTextformfield({
     Key? key,
     required this.mycontroller,
@@ -22,6 +24,8 @@ class MyTextformfield extends StatelessWidget {
     this.expand,
     this.addImageIcons,
     this.imageFile,
+    this.suffixIconButton,
+    this.obsecure,
   }) : super(key: key);
 
   @override
@@ -42,13 +46,16 @@ class MyTextformfield extends StatelessWidget {
         SizedBox(
           height: fieldHeight ?? 60,
           child: TextFormField(
-            maxLines: null, // Allows infinite lines
+            obscureText: obsecure ?? false,
+            maxLines: obsecure == null ? null : 1, // Allows infinite lines
             expands: expand ?? false, // Expands to fill the parent
             // textAlign: TextAlign.center, // Center text horizontally
             textAlignVertical: TextAlignVertical.top, // Align text at the top
             validator: validator,
             controller: mycontroller,
+
             decoration: InputDecoration(
+              suffixIcon: suffixIconButton,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               filled: true,

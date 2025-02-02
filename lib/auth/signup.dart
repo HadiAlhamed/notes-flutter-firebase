@@ -23,6 +23,7 @@ class _SignupState extends State<Signup> {
   // final TextEditingController cPasswordController = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   bool isLoading = false;
+  bool showPassword = false;
   @override
   void dispose() {
     super.dispose();
@@ -99,6 +100,19 @@ class _SignupState extends State<Signup> {
                         height: 20,
                       ),
                       MyTextformfield(
+                        obsecure: !showPassword,
+                        suffixIconButton: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            !showPassword
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye,
+                          ),
+                        ),
                         mycontroller: passwordController,
                         hintText: "Enter your password",
                         label: "Password",
@@ -189,7 +203,11 @@ class _SignupState extends State<Signup> {
                           ),
                           InkWell(
                             onTap: () async {
-                              await Get.offNamed('/');
+                              await Get.off(
+                                const Login(),
+                                transition: Transition.fade,
+                                duration: const Duration(milliseconds: 700),
+                              );
                             },
                             child: const Text(
                               "Login",

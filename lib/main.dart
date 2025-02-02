@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:firebase_app/auth/login.dart';
 import 'package:firebase_app/auth/signup.dart';
 import 'package:firebase_app/helper/db_helper.dart';
+import 'package:firebase_app/services/push_notifications_service.dart';
 import 'package:firebase_app/ui/add_category.dart';
 import 'package:firebase_app/ui/edit_category.dart';
 import 'package:firebase_app/ui/home_page.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // await DbHelper.init();
+  await PushNotificationsService.init();
   runApp(const MyApp());
 }
 
@@ -68,7 +69,7 @@ class _MyAppState extends State<MyApp> {
           name: "/signUp",
           page: (() => const Signup()),
           transition: Transition.fade,
-          transitionDuration: const Duration(seconds: 1),
+          transitionDuration: const Duration(milliseconds: 700),
         ),
         GetPage(
           name: FirebaseAuth.instance.currentUser != null &&
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
               : '/',
           page: (() => const Login()),
           transition: Transition.fade,
-          transitionDuration: const Duration(seconds: 1),
+          transitionDuration: const Duration(milliseconds: 700),
         ),
         GetPage(
           name: FirebaseAuth.instance.currentUser != null &&
@@ -86,13 +87,13 @@ class _MyAppState extends State<MyApp> {
               : '/homePage',
           page: (() => const HomePage()),
           transition: Transition.fade,
-          transitionDuration: const Duration(seconds: 1),
+          transitionDuration: const Duration(milliseconds: 700),
         ),
         GetPage(
           name: "/addCategory",
           page: (() => const AddCategory()),
           transition: Transition.fade,
-          transitionDuration: const Duration(seconds: 1),
+          transitionDuration: const Duration(milliseconds: 700),
         ),
       ],
     );

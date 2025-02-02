@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,6 +21,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool showPassword = false;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   bool isLoading = false;
   Future<void> signInWithGoogle() async {
@@ -103,6 +105,19 @@ class _LoginState extends State<Login> {
                         height: 20,
                       ),
                       MyTextformfield(
+                        obsecure: !showPassword,
+                        suffixIconButton: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            !showPassword
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye,
+                          ),
+                        ),
                         mycontroller: passwordController,
                         hintText: "Enter your password",
                         label: "Password",
@@ -181,6 +196,10 @@ class _LoginState extends State<Login> {
                                 isLoading = false;
                               });
                               if (credential.user!.emailVerified) {
+                                String? token =
+                                    await FirebaseMessaging.instance.getToken();
+                                print("======================= TOKEN : ");
+                                print(token);
                                 Get.offNamed('/homePage');
                               } else {
                                 AwesomeDialog(
